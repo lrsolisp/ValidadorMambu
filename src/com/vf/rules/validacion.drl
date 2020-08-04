@@ -1,0 +1,11 @@
+package mx.com.vf.rules
+
+
+import com.vf.entidades.Messageaaaa;
+
+rule "Hello World"
+when
+  message:Message (type == 'Hello')
+then
+  System.out.print("HOLAAA");
+end

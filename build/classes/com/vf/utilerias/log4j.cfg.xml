@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+
+	<!-- Flujo a consola -->
+	<appender name="consola" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd-MM-yy HH:mm:ss:mmm} LOG] [%c] %-5p - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="monitor" class="org.apache.log4j.RollingFileAppender" >
+		<param name="File" 				value="MambuValidador/Monitor.log" />
+		<param name="MaxFileSize" 		value="20MB" />
+		<param name="MaxBackupIndex" 	value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd-MM-yy HH:mm:ss:mmm} LOG] [%c] %-5p - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMax" value="warn"/> 
+            <param name="levelMin" value="debug"/> 
+            <param name="AcceptOnMatch" value="true"/>
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter"/> 
+	</appender>
+	
+	<appender name="errors" class="org.apache.log4j.RollingFileAppender" >
+		<param name="File" 				value="MambuValidador/Error.log" />
+		<param name="MaxFileSize" 		value="20MB" />
+		<param name="MaxBackupIndex" 	value="10" />
+		<param name="Threshold" 		value="ERROR"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd-MM-yy HH:mm:ss:mmm} LOG] [%c] %-5p - %m%n" />
+		</layout>
+	</appender>
+	
+	<appender name="infoEntidad" class="org.apache.log4j.RollingFileAppender" >
+		<param name="File" 				value="MambuValidador/Entidad.log" />
+		<param name="MaxFileSize" 		value="20MB" />
+		<param name="MaxBackupIndex" 	value="10" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd-MM-yy HH:mm:ss:mmm} LOG] [%c] %-5p - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelMatchFilter">
+			<param name="LevelToMatch" value="trace"/> 
+            <param name="AcceptOnMatch" value="true"/> 
+		</filter>
+		<filter class="org.apache.log4j.varia.DenyAllFilter"/> 
+	</appender>
+	
+	<!--  TRACE,
+		DEBUG,
+		INFO,
+		WARN,
+		ERROR and
+		FATAL -->
+	<logger name="org.apache.ibatis">
+		<level value="trace"/>
+		<appender-ref ref="infoEntidad"/>
+	</logger>
+		
+	<!-- Se define la prioridad -->
+	<root>
+		<priority value="all" />		
+		<appender-ref ref="errors"/>
+		<appender-ref ref="monitor"/>
+		<appender-ref ref="infoEntidad"/>
+	</root>
+
+</log4j:configuration>
